@@ -1,9 +1,9 @@
-import java.io.*;
-import java.nio.file.*;
-import java.util.*;
-import java.util.stream.Collectors;
+     import java.io.*;
+     import java.nio.file.*;
+     import java.util.*;
+     import java.util.stream.Collectors;
 
- public class PaperCheck {
+     public class PaperCheck {
      public static void main(String[] args) throws IOException {
             // 从命令行参数读取文件路径
             String origPath = args[0];
