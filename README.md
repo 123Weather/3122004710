@@ -4,12 +4,19 @@
      import java.util.stream.Collectors;
 
      public class PaperCheck {
-     public static void main(String[] args) throws IOException {
+     public static void main(String[] args) /*throws IOException*/ {
+            
+           // 检查命令行参数数量
+           if (args.length != 3) {
+           System.err.println("Usage: java PaperCheck <originalFilePath> <plagiarizedFilePath> <outputFilePath>");
+           System.exit(1);  // 非正常退出
+           }
+            
             // 从命令行参数读取文件路径
             String origPath = args[0];
             String plagiarizedPath = args[1];
             String outputPath = args[2];
-            
+            try{
             // 读取文件内容并分词
             List<String> origWords = tokenizeFile(origPath);
             List<String> plagiarizedWords = tokenizeFile(plagiarizedPath);
@@ -36,6 +43,9 @@
             // 将结果输出到文件中，保留两位小数
              try (BufferedWriter writer = new BufferedWriter(new FileWriter(outputPath))) {
             writer.write(String.format("%.2f", cosineSimilarity));
+            }
+        }catch (IOException e) {
+            System.err.println("Error reading files or writing output: " + e.getMessage());
         }
 
      }
