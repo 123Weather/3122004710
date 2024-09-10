@@ -1,12 +1,43 @@
+import java.io.*;
+import java.nio.file.*;
+import java.util.*;
+import java.util.stream.Collectors;
+
  public class PaperCheck {
      public static void main(String[] args) throws IOException {
             // 从命令行参数读取文件路径
+            String origPath = args[0];
+            String plagiarizedPath = args[1];
+            String outputPath = args[2];
+            
             // 读取文件内容并分词
+            List<String> origWords = tokenizeFile(origPath);
+            List<String> plagiarizedWords = tokenizeFile(plagiarizedPath);
+
             // 计算词频
+            Map<String, Integer> origWordFreq = buildWordFrequency(origWords);
+            Map<String, Integer> plagiarizedWordFreq = buildWordFrequency(plagiarizedWords);
+
+            
             // 构建词汇表
+            Set<String> allWords = new HashSet<>();
+            allWords.addAll(origWordFreq.keySet());
+            allWords.addAll(plagiarizedWordFreq.keySet());
+
+
+            
             // 构建词向量
+             List<Integer> origVector = buildVector(allWords, origWordFreq);
+             List<Integer> plagiarizedVector = buildVector(allWords, plagiarizedWordFreq);
+
             // 计算余弦相似度
+            double cosineSimilarity = calculateCosineSimilarity(origVector, plagiarizedVector);
+            
             // 将结果输出到文件中，保留两位小数
+             try (BufferedWriter writer = new BufferedWriter(new FileWriter(outputPath))) {
+            writer.write(String.format("%.2f", cosineSimilarity));
+        }
+
      }
 
         // 读取文件并分词
