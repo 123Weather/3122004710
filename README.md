@@ -9,11 +9,13 @@
             // 将结果输出到文件中，保留两位小数
      }
 
-
-
-
-
-      // 读取文件并分词
+        // 读取文件并分词
+        private static List<String> tokenizeFile(String filePath) throws IOException {
+        String content = Files.readString(Paths.get(filePath));
+        return Arrays.stream(content.split("\\W+"))  // 分词，使用正则表达式去掉标点符号
+                     .filter(word -> !word.isEmpty())
+                     .collect(Collectors.toList());
+    }
         // 构建词频表
         // 构建词频向量
-         // 计算余弦相似度
+        // 计算余弦相似度
